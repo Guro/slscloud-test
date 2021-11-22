@@ -20,6 +20,15 @@ api.post("/api/users", async (req, res) => {
     })
 });
 
+api.post("/api/users/delete", async (req, res) => {
+    console.log('DELETE API/USERS')
+    await data.remove(`user:${req.body.name}`);
+    res.send({
+        name:req.body.name,
+        status:200
+    })
+});
+
 // Catch all for missing API routes
 api.get("/api/*", (req, res) => {
     console.log(`404 - api`);

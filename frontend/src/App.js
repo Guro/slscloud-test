@@ -11,17 +11,6 @@ const Loading = () => (
     </div>
 )
 
-const Users = (props) => {
-    const { users } = props
-    return users.map((user) => {
-        return (
-            <div key={user.id}>
-                <strong>{user.key}</strong>, 
-                <span className={user.value.company}>Company: {` ${user.value.company}`}</span>
-            </div>
-        )
-    })
-}
 
 
 const App = () => {
@@ -45,6 +34,26 @@ const App = () => {
   useEffect(() => {
     fetchAndSetUsers()
   }, [])
+
+
+const Users = (props) => {
+    const { users } = props
+    return users.map((user) => {
+        return (
+            <div key={user.id}>
+                <strong>{user.key}</strong>, 
+                <span className={user.value.company}>Company: {` ${user.value.company}`} </span>
+                <button onClick={async ()=>{
+                setLoading(true)
+                await axios.post('/api/users/delete',{
+                    "name":user.key.replace('user:',''),
+                })
+                await fetchAndSetUsers();
+            }}> Delete</button>
+            </div>
+        )
+    })
+}
 
   return (
     <div className='App' style={{ display: 'flex', alignItems: 'center', textAlign: 'center', flexDirection: 'column', height: '100vh' }}>
